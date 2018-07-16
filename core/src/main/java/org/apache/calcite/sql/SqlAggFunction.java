@@ -19,6 +19,7 @@ package org.apache.calcite.sql;
 import org.apache.calcite.plan.Context;
 import org.apache.calcite.rel.type.RelDataType;
 import org.apache.calcite.rel.type.RelDataTypeFactory;
+import org.apache.calcite.sql.parser.SqlParserPos;
 import org.apache.calcite.sql.type.SqlOperandTypeChecker;
 import org.apache.calcite.sql.type.SqlOperandTypeInference;
 import org.apache.calcite.sql.type.SqlReturnTypeInference;
@@ -34,6 +35,7 @@ import java.util.List;
 public abstract class SqlAggFunction extends SqlFunction implements Context {
   private final boolean requiresOrder;
   private final boolean requiresOver;
+  SqlLiteral nullTreatment;
 
   //~ Constructors -----------------------------------------------------------
 
@@ -126,10 +128,30 @@ public abstract class SqlAggFunction extends SqlFunction implements Context {
     throw new UnsupportedOperationException("remove before calcite-2.0");
   }
 
+  @Override public SqlCall createCall(
+      SqlLiteral functionQualifier, SqlParserPos pos, SqlNode... operands) {
+    return super.createCall(functionQualifier, pos, operands);
+  }
+
   /** Whether this aggregate function allows a {@code FILTER (WHERE ...)}
    * clause. */
   public boolean allowsFilter() {
     return true;
+  }
+
+  /**
+   * The level of abstraction with which to display the plan.
+   */
+  public enum NullTreatment {
+    IGNORE_NULLS, RESPECT_NULLS;
+
+    /**
+     * Creates a parse-tree node representing an occurrence of this symbol.
+     * at a particular position in the parsed text.
+     */
+    public SqlLiteral symbol(SqlParserPos pos) {
+      return SqlLiteral.createSymbol(this, pos);
+    }
   }
 }
 

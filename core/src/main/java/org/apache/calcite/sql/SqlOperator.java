@@ -248,6 +248,10 @@ public abstract class SqlOperator {
       SqlParserPos pos,
       SqlNode... operands) {
     pos = pos.plusAll(Arrays.asList(operands));
+    System.out.println("operator " + this);
+    System.out.println("operands " + Arrays.toString(operands));
+    System.out.println("pos " + pos);
+    System.out.println("functionQualifier " + functionQualifier);
     return new SqlBasicCall(this, operands, pos, false, functionQualifier);
   }
 
@@ -781,6 +785,10 @@ public abstract class SqlOperator {
    */
   public boolean requiresOrder() {
     return false;
+  }
+
+  public SqlKind getNullTreatment() {
+    return SqlKind.RESPECT_NULLS;
   }
 
   /**

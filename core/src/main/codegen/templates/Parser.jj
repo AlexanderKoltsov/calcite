@@ -40,6 +40,7 @@ import org.apache.calcite.rel.type.RelDataType;
 import org.apache.calcite.runtime.CalciteContextException;
 import org.apache.calcite.sql.JoinConditionType;
 import org.apache.calcite.sql.JoinType;
+import org.apache.calcite.sql.SqlAggFunction.NullTreatment;
 import org.apache.calcite.sql.SqlAlter;
 import org.apache.calcite.sql.SqlBinaryOperator;
 import org.apache.calcite.sql.SqlCall;
@@ -4986,6 +4987,7 @@ SqlNode NamedFunctionCall() :
     final Span filterSpan;
     final SqlNode filter;
     final SqlNode over;
+    final SqlKind nullTreatment;
     SqlLiteral quantifier = null;
 }
 {
@@ -5014,6 +5016,12 @@ SqlNode NamedFunctionCall() :
             args.remove(0);
         }
     )
+    [
+        <IGNORE> {
+          args.add(NullTreatment.IGNORE_NULLS.symbol(SqlParserPos.ZERO));
+        }
+        <NULLS>
+    ]
     {
         call = createCall(qualifiedName, s.end(this), funcType, quantifier,
             args);
@@ -5688,6 +5696,7 @@ SqlPostfixOperator PostfixRowOperator() :
 |   < HOLD: "HOLD" >
 |   < HOUR: "HOUR" >
 |   < IDENTITY: "IDENTITY" >
+|   < IGNORE: "IGNORE" >
 |   < IMMEDIATE: "IMMEDIATE" >
 |   < IMMEDIATELY: "IMMEDIATELY" >
 |   < IMPLEMENTATION: "IMPLEMENTATION" >
@@ -5887,6 +5896,7 @@ SqlPostfixOperator PostfixRowOperator() :
 |   < REPEATABLE: "REPEATABLE" >
 |   < REPLACE: "REPLACE" >
 |   < RESET: "RESET" >
+|   < RESPECT: "RESPECT" >
 |   < RESTART: "RESTART" >
 |   < RESTRICT: "RESTRICT" >
 |   < RESULT: "RESULT" >
@@ -6224,6 +6234,7 @@ String CommonNonReservedKeyWord() :
     |   <GOTO>
     |   <GRANTED>
     |   <HIERARCHY>
+    |   <IGNORE>
     |   <IMMEDIATE>
     |   <IMMEDIATELY>
     |   <IMPLEMENTATION>
@@ -6304,6 +6315,7 @@ String CommonNonReservedKeyWord() :
     |   <RELATIVE>
     |   <REPEATABLE>
     |   <REPLACE>
+    |   <RESPECT>
     |   <RESTART>
     |   <RESTRICT>
     |   <RETURNED_CARDINALITY>

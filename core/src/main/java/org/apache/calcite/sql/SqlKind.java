@@ -553,6 +553,16 @@ public enum SqlKind {
   NULLS_LAST,
 
   /**
+   * IGNORE NULLS clause.
+   */
+  IGNORE_NULLS,
+
+  /**
+   * RESPECT NULLS clause.
+   */
+  RESPECT_NULLS,
+
+  /**
    * The "IS TRUE" operator.
    */
   IS_TRUE,
@@ -1151,7 +1161,8 @@ public enum SqlKind {
                   TIMESTAMP_ADD, TIMESTAMP_DIFF, EXTRACT,
                   LITERAL_CHAIN, JDBC_FN, PRECEDING, FOLLOWING, ORDER_BY,
                   NULLS_FIRST, NULLS_LAST, COLLECTION_TABLE, TABLESAMPLE,
-                  VALUES, WITH, WITH_ITEM, SKIP_TO_FIRST, SKIP_TO_LAST),
+                  VALUES, WITH, WITH_ITEM, SKIP_TO_FIRST, SKIP_TO_LAST,
+                  IGNORE_NULLS, RESPECT_NULLS),
               AGGREGATE, DML, DDL));
 
   /**
