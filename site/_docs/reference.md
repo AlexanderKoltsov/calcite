@@ -1552,11 +1552,7 @@ Not implemented:
 * LAST_VALUE(value) IGNORE NULLS OVER window
 * PERCENT_RANK(value) OVER window
 * CUME_DIST(value) OVER window
-<<<<<<< HEAD
 * NTH_VALUE(value, nth) [ FROM { FIRST | LAST } ] IGNORE NULLS OVER window
-=======
-* NTH_VALUE(value, nth) [FROM {FIRST|LAST}] IGNORE NULLS OVER window
->>>>>>> [CALCITE-2383] NTH_VALUE window function support
 
 ### Grouping functions
 

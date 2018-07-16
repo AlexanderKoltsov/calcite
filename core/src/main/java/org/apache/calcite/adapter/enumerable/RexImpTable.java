@@ -1524,10 +1524,6 @@ public class RexImpTable {
   /** Implementor for the {@code NTH_VALUE}
    * windowed aggregate function. */
   static class NthValueImplementor implements WinAggImplementor {
-<<<<<<< HEAD
-=======
-
->>>>>>> [CALCITE-2383] NTH_VALUE window function support
     public List<Type> getStateType(AggContext info) {
       return Collections.emptyList();
     }
@@ -1545,30 +1541,17 @@ public class RexImpTable {
     }
 
     public Expression implementResult(AggContext info,
-<<<<<<< HEAD
         AggResultContext result) {
-=======
-                                      AggResultContext result) {
->>>>>>> [CALCITE-2383] NTH_VALUE window function support
       WinAggResultContext winResult = (WinAggResultContext) result;
 
       List<RexNode> rexArgs = winResult.rexArguments();
 
       ParameterExpression res = Expressions.parameter(0, info.returnType(),
-<<<<<<< HEAD
           result.currentBlock().newName("nth"));
 
       RexToLixTranslator currentRowTranslator =
           winResult.rowTranslator(
               winResult.computeIndex(Expressions.constant(0), SeekType.START));
-=======
-              result.currentBlock().newName("nth"));
-
-      RexToLixTranslator currentRowTranslator =
-              winResult.rowTranslator(
-                      winResult.computeIndex(Expressions.constant(0), SeekType.START));
-
->>>>>>> [CALCITE-2383] NTH_VALUE window function support
 
       Expression dstIndex = winResult.computeIndex(
           Expressions.subtract(
@@ -1578,13 +1561,8 @@ public class RexImpTable {
       Expression rowInRange = winResult.rowInPartition(dstIndex);
 
       BlockBuilder thenBlock = result.nestBlock();
-<<<<<<< HEAD
       Expression nthValue = winResult.rowTranslator(dstIndex)
           .translate(rexArgs.get(0), res.type);
-=======
-      Expression nthValue = winResult.rowTranslator(dstIndex).translate(
-              rexArgs.get(0), res.type);
->>>>>>> [CALCITE-2383] NTH_VALUE window function support
       thenBlock.add(Expressions.statement(Expressions.assign(res, nthValue)));
       result.exitBlock();
       BlockStatement thenBranch = thenBlock.toBlock();
@@ -1593,13 +1571,8 @@ public class RexImpTable {
 
       result.currentBlock().add(Expressions.declare(0, res, null));
       result.currentBlock().add(
-<<<<<<< HEAD
           Expressions.ifThenElse(rowInRange, thenBranch,
               Expressions.statement(Expressions.assign(res, defaultValue))));
-=======
-              Expressions.ifThenElse(rowInRange, thenBranch,
-                      Expressions.statement(Expressions.assign(res, defaultValue))));
->>>>>>> [CALCITE-2383] NTH_VALUE window function support
       return res;
     }
   }
